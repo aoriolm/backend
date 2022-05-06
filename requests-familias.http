@@ -1,0 +1,27 @@
+###
+POST http://localhost:9000/api/familias HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Uñas",
+    "descripcion": "Tratamientos sobre las uñas"
+}
+
+###
+GET http://localhost:9000/api/familias HTTP/1.1
+
+###
+GET http://localhost:9000/api/familias/6274574c8bf34b4b28f8685e HTTP/1.1
+
+###
+PUT http://localhost:9000/api/familias/6274574c8bf34b4b28f8685e HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Depilación",
+    "descripcion": "Diferentes tipos de depilación"
+}
+
+###
+DELETE http://localhost:9000/api/familias/6273e530cb1a3691cf04bb93 HTTP/1.1
+
