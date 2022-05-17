@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: true,
+        trim: true
+    },
+    password: {
+        type: String,
     },
     nombre: {
         type: String,
@@ -15,11 +19,9 @@ const userSchema = mongoose.Schema({
     },
     apellido2: {
         type: String,
-        required: false
     },
     nacimiento: {
         type: String,
-        required: false
     },
     tel1: {
         type: Number,
@@ -27,12 +29,19 @@ const userSchema = mongoose.Schema({
     },
     tel2: {
         type: Number,
-        required: false
     },
     genero: {
         type: String,
         required: false
-    }
+    },
+    role: {
+        type: String,
+        default: 'basic',
+        enum: ["basic", "admin"]
+       },
+    accessToken: {
+        type: String
+       }
 });
 
 module.exports = mongoose.model('User', userSchema);

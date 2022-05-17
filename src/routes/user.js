@@ -1,25 +1,32 @@
 const express = require("express");
 const userSchema = require("../models/user");
+const userController = require('../controllers/user');
 
 const router = express.Router();
 
 const { validateCreate } = require("../validators/user");
 
 // create user
-router.post("/users",validateCreate, (req, res) => {
+router.post("/users", (req, res) => {
     const user = userSchema(req.body);
     user
     .save()
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
+
+router.post('/signup', userController.signup);
 // get all users
-router.get("/users", (req, res) => {
+/*router.get("/users", (req, res) => {
     userSchema
     .find()
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
-});
+});*/
+
+router.post('/login', userController.login);
+
+router.get('/users', userController.allowIfLoggedin, userController.grantAccess('readAny', 'profile'), userController.getUsers);
 
 // get a user
 router.get("/users/:id", (req, res) => {
