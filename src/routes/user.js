@@ -31,6 +31,7 @@ router.get('/users', userController.allowIfLoggedin, userController.grantAccess(
 // get a user
 router.get("/users/:id", (req, res) => {
     const { id } = req.params; 
+    console.log(id);
     userSchema
     .findById(id)
     .then((data) => res.json(data))
@@ -40,9 +41,9 @@ router.get("/users/:id", (req, res) => {
 // update a user
 router.put("/users/:id", (req, res) => {
     const { id } = req.params;
-    const { name, age, email } = req.body;
+    const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body;
     userSchema
-    .updateOne({ _id: id }, { $set: { name, age, email } })
+    .updateOne({ _id: id }, { $set: { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });

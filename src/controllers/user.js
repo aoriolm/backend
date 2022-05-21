@@ -13,9 +13,9 @@ async function validatePassword(plainPassword, hashedPassword) {
 
 exports.signup = async (req, res, next) => {
  try {
-  const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, role } = req.body
+  const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body
   const hashedPassword = await hashPassword(password);
-  const newUser = new userSchema({ email, password: hashedPassword, role: role || "basic", nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
+  const newUser = new userSchema({ email, password: hashedPassword, rol: rol || "basic", nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
   const accessToken = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
    expiresIn: "1d"
   });
@@ -43,8 +43,9 @@ exports.login = async (req, res, next) => {
      
      await userSchema.findByIdAndUpdate(user._id, { accessToken })
      res.status(200).json({
-      data: { email: user.email, role: user.role },
-      accessToken
+      //data: { email: user.email, rol: user.rol },
+      id: user._id,
+      accessToken,
      })
      } catch (error) {
      next(error);
@@ -105,7 +106,7 @@ exports.login = async (req, res, next) => {
 exports.grantAccess = function(action, resource) {
  return async (req, res, next) => {
   try {
-   const permission = roles.can(req.user.role)[action](resource);
+   const permission = roles.can(req.user.rol)[action](resource);
    if (!permission.granted) {
     return res.status(401).json({
      error: "You don't have enough permission to perform this action"
@@ -121,6 +122,7 @@ exports.grantAccess = function(action, resource) {
 exports.allowIfLoggedin = async (req, res, next) => {
  try {
   const user = res.locals.loggedInUser;
+  console.log(user);
   if (!user)
    return res.status(401).json({
     error: "You need to be logged in to access this route"

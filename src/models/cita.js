@@ -13,6 +13,10 @@ const citaSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     nombre: {
         type: String,
         required: true
