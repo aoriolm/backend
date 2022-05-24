@@ -74,7 +74,10 @@ exports.login = async (req, res, next) => {
     
    exports.updateUser = async (req, res, next) => {
     try {
-     const update = req.body
+      const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body
+      const hashedPassword = await hashPassword(password);
+      const update = new userSchema({ email, password: hashedPassword, rol: rol, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
+     //const update = req.body
      const userId = req.params.userId;
      await userSchema.findByIdAndUpdate(userId, update);
      const user = await User.findById(userId)
@@ -122,7 +125,7 @@ exports.grantAccess = function(action, resource) {
 exports.allowIfLoggedin = async (req, res, next) => {
  try {
   const user = res.locals.loggedInUser;
-  console.log(user);
+  //console.log(user);
   if (!user)
    return res.status(401).json({
     error: "You need to be logged in to access this route"
