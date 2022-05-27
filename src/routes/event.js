@@ -1,49 +1,49 @@
 const express = require("express");
-const familiaSchema = require("../models/familia");
+const eventSchema = require("../models/event");
 
 const router = express.Router();
 
 //const { validateCreate } = require("../validators/familia");
 
 // create familia
-router.post("/familias", (req, res) => {
-    const familia = familiaSchema(req.body);
-    familia
+router.post("/events", (req, res) => {
+    const event = eventSchema(req.body);
+    event
     .save()
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
-// get all familias
-router.get("/familias", (req, res) => {
-    familiaSchema
+// get all events
+router.get("/events", (req, res) => {
+    eventSchema
     .find()
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
 
-// get a familia
-router.get("/familias/:id", (req, res) => {
+// get a event
+router.get("/events/:id", (req, res) => {
     const { id } = req.params; 
-    familiaSchema
+    eventSchema
     .findById(id)
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
 
-// update a familia
-router.put("/familias/:id", (req, res) => {
+// update a event
+router.put("/events/:id", (req, res) => {
     const { id } = req.params;
     const { nombre, descripcion } = req.body;
-    familiaSchema
+    eventSchema
     .updateOne({ _id: id }, { $set: { nombre, descripcion } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
 
-// delete a familia
-router.delete("/familias/:id", (req, res) => {
+// delete a event
+router.delete("/events/:id", (req, res) => {
     const { id } = req.params;
-    familiaSchema
+    eventSchema
     .deleteOne({ _id: id })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));

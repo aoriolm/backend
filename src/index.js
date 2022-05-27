@@ -7,7 +7,7 @@ require("dotenv").config({
    });
 const userRoutes = require("./routes/user");
 const servicioRoutes = require("./routes/servicio");
-const familiaRoutes = require("./routes/familia");
+const eventRoutes = require("./routes/event");
 const citaRoutes = require("./routes/cita");
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/api', userRoutes);
 app.use('/api', servicioRoutes);
-app.use('/api', familiaRoutes);
+app.use('/api', eventRoutes);
 app.use('/api', citaRoutes);
 
 // routes

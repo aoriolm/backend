@@ -33,9 +33,9 @@ router.get("/citas/:id", (req, res) => {
 // update a cita
 router.put("/citas/:id", (req, res) => {
     const { id } = req.params;
-    const { fecha, hora, duracion, email, nombre, apellido1, apellido2, servicios, tel1, tel2 } = req.body;
+    const { start, duracion, email, nombre, apellido1, apellido2, servicios, tel1, tel2 } = req.body;
     citaSchema
-    .updateOne({ _id: id }, { $set: { fecha, hora, duracion, email, nombre, apellido1, apellido2, servicios, tel1, tel2 } })
+    .updateOne({ _id: id }, { $set: { start, duracion, email, nombre, apellido1, apellido2, servicios, tel1, tel2 } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });

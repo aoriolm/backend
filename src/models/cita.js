@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 
 const citaSchema = mongoose.Schema({
-    fecha: {
-        type: String,
+    start: {
+        type: Date,
         required: true
-    },
-    hora: {
-        type: String,
-        required: true
-    },
+    },    
     duracion: {
         type: Number,
         required: true
