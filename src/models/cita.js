@@ -25,11 +25,8 @@ const citaSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    servicios: {
-        type: Array,
-        items: [{
-            type: String
-        }],
+    servicio: {
+        type: String,
         required: true
     },
     tel1: {

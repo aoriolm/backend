@@ -52,12 +52,21 @@ exports.login = async (req, res, next) => {
     }
    }
 
-   exports.getUsers = async (req, res, next) => {
+   /*exports.getUsers = async (req, res, next) => {
     const users = await userSchema.find({});
     res.status(200).json({
      data: users
     });
+   }*/
+
+   exports.getUsers = async (req, res, next) => {
+    const users = await userSchema
+    .find()
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error}));
    }
+
+
     
    exports.getUser = async (req, res, next) => {
     try {

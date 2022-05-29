@@ -26,7 +26,9 @@ router.post('/signup', userController.signup);
 
 router.post('/login', userController.login);
 
-router.get('/users', userController.allowIfLoggedin, userController.grantAccess('readAny', 'profile'), userController.getUsers);
+//router.get('/users', userController.allowIfLoggedin, userController.grantAccess('readAny', 'profile'), userController.getUsers);
+
+router.get('/users', userController.getUsers);
 
 // get a user
 router.get("/users/:id", (req, res) => {
