@@ -24,11 +24,13 @@ router.get("/servicios", (req, res) => {
 
 // get un servicio
 router.get("/servicios/:id", (req, res) => {
-    const { id } = req.params; 
+    const { id } = req.params;
+    console.log("Este es el servicio pedido: ", id);
     servicioSchema
     .findById(id)
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
+    //console.log("Este es lo enviado del backend: ", res);
 });
 
 // update un servicio

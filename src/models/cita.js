@@ -4,38 +4,14 @@ const citaSchema = mongoose.Schema({
     start: {
         type: Date,
         required: true
-    },    
-    duracion: {
-        type: Number,
-        required: true
     },
-    email: {
+    user_id: {
         type: String,
         required: true
-    },
-    nombre: {
-        type: String,
-        required: true
-    },
-    apellido1: {
-        type: String,
-        required: true
-    },
-    apellido2: {
-        type: String,
-        required: false
     },
     servicio: {
         type: String,
         required: true
-    },
-    tel1: {
-        type: Number,
-        required: true
-    },
-    tel2: {
-        type: Number,
-        required: false
     }
 });
 
