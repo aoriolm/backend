@@ -12,6 +12,10 @@ const citaSchema = mongoose.Schema({
     servicio: {
         type: String,
         required: true
+    },
+    idEvento: {
+        type: String,
+        required: true
     }
 });
 

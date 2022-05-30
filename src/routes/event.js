@@ -22,13 +22,24 @@ router.get("/events", (req, res) => {
 });
 
 // get a event
-router.get("/events/:id", (req, res) => {
-    const { id } = req.params; 
+router.get("/events/:start", (req, res) => {
+    const { start } = req.params;
+    if (typeof start === 'Date'){ 
+    console.log("Id pedido: ", start);
     eventSchema
-    .findById(id)
+    .find({start: start})
+    //.findById(start)
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error}));
+    .catch((error) => res.json({ message: error}));}
+    else {
+        console.log("Start pedido: ", start);
+        eventSchema
+        .find({start: start})
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error}));
+    }
 });
+
 
 // update a event
 router.put("/events/:id", (req, res) => {
