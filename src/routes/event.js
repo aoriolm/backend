@@ -44,9 +44,9 @@ router.get("/events/:start", (req, res) => {
 // update a event
 router.put("/events/:id", (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion } = req.body;
+    const { start, end, title } = req.body;
     eventSchema
-    .updateOne({ _id: id }, { $set: { nombre, descripcion } })
+    .updateOne({ _id: id }, { $set: { start, end, title } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
 });
