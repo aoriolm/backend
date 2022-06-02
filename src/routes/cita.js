@@ -34,6 +34,8 @@ router.get("/citas/:id", (req, res) => {
 router.put("/citas/:id", (req, res) => {
     const { id } = req.params;
     const { start, user_id, servicio, idEvento } = req.body;
+    console.log("id recibido: ", id);
+    console.log("resto de la cita recibida: ", req.body);
     citaSchema
     .updateOne({ _id: id }, { $set: { start, user_id, servicio, idEvento } })
     .then((data) => res.json(data))
