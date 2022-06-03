@@ -41,14 +41,15 @@ router.get("/users/:id", (req, res) => {
 });
 
 // update a user
-router.put("/users/:id", (req, res) => {
+router.put('/users/:id', userController.updateUser);
+/*router.put("/users/:id", (req, res) => {
     const { id } = req.params;
     const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body;
     userSchema
     .updateOne({ _id: id }, { $set: { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } })
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
-});
+});*/
 
 // delete a user
 router.delete("/users/:id", (req, res) => {

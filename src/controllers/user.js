@@ -15,7 +15,7 @@ exports.signup = async (req, res, next) => {
  try {
   const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body
   const hashedPassword = await hashPassword(password);
-  const newUser = new userSchema({ email, password: hashedPassword, rol: rol || "basic", nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
+  const newUser = new userSchema({ email, password: hashedPassword, rol: rol, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
   const accessToken = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
    expiresIn: "1d"
   });
@@ -82,21 +82,16 @@ exports.login = async (req, res, next) => {
    }
     
    exports.updateUser = async (req, res, next) => {
-    try {
-      const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body
-      const hashedPassword = await hashPassword(password);
-      const update = new userSchema({ email, password: hashedPassword, rol: rol, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero });
-     //const update = req.body
-     const userId = req.params.userId;
-     await userSchema.findByIdAndUpdate(userId, update);
-     const user = await User.findById(userId)
-     res.status(200).json({
-      data: user,
-      message: 'User has been updated'
-     });
-    } catch (error) {
-     next(error)
-    }
+    const { id } = req.params;
+    const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body;
+    console.log("El password recibido es: ", password);
+    const hashedPassword = await hashPassword(password);
+    console.log("El password a guardar es: ", hashedPassword);
+    userSchema
+    .updateOne({ _id: id }, { $set: { email, password: hashedPassword, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } })
+    .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error}));
+
    }
     
    exports.deleteUser = async (req, res, next) => {
