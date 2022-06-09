@@ -1,12 +1,10 @@
 const express = require("express");
 const servicioSchema = require("../models/servicio");
-
+const mid_auth = require('../middlewares/authenticated');
 const router = express.Router();
 
-//const { validateCreate } = require("../validators/user");
-
 // create servicio
-router.post("/servicios", (req, res) => {
+router.post("/servicios", mid_auth.isLoggedIn, (req, res) => {
     const servicio = servicioSchema(req.body);
     servicio
     .save()
@@ -15,7 +13,7 @@ router.post("/servicios", (req, res) => {
 });
 
 // get todos servicios
-router.get("/servicios", (req, res) => {
+router.get("/servicios", mid_auth.isLoggedIn, (req, res) => {
     servicioSchema
     .find()
     .then((data) => res.json(data))
@@ -23,18 +21,16 @@ router.get("/servicios", (req, res) => {
 });
 
 // get un servicio
-router.get("/servicios/:id", (req, res) => {
+router.get("/servicios/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
-    console.log("Este es el servicio pedido: ", id);
     servicioSchema
     .findById(id)
     .then((data) => res.json(data))
     .catch((error) => res.json({ message: error}));
-    //console.log("Este es lo enviado del backend: ", res);
 });
 
 // update un servicio
-router.put("/servicios/:id", (req, res) => {
+router.put("/servicios/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     const { nombre, descripcion, precio, duracion } = req.body;
     servicioSchema
@@ -44,7 +40,7 @@ router.put("/servicios/:id", (req, res) => {
 });
 
 // delete un servicio
-router.delete("/servicios/:id", (req, res) => {
+router.delete("/servicios/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     servicioSchema
     .deleteOne({ _id: id })

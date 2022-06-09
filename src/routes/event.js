@@ -1,12 +1,10 @@
 const express = require("express");
 const eventSchema = require("../models/event");
-
+const mid_auth = require('../middlewares/authenticated');
 const router = express.Router();
 
-//const { validateCreate } = require("../validators/familia");
-
 // create familia
-router.post("/events", (req, res) => {
+router.post("/events", mid_auth.isLoggedIn, (req, res) => {
     const event = eventSchema(req.body);
     event
     .save()
@@ -14,7 +12,7 @@ router.post("/events", (req, res) => {
     .catch((error) => res.json({ message: error}));
 });
 // get all events
-router.get("/events", (req, res) => {
+router.get("/events", mid_auth.isLoggedIn, (req, res) => {
     eventSchema
     .find()
     .then((data) => res.json(data))
@@ -22,27 +20,17 @@ router.get("/events", (req, res) => {
 });
 
 // get a event
-router.get("/events/:start", (req, res) => {
-    const { start } = req.params;
-    if (typeof start === 'Date'){ 
-    console.log("Id pedido: ", start);
+router.get("/events/:id", mid_auth.isLoggedIn, (req, res) => {
+    const { id } = req.params;
     eventSchema
-    .find({start: start})
-    //.findById(start)
+    .findById(id)
     .then((data) => res.json(data))
-    .catch((error) => res.json({ message: error}));}
-    else {
-        console.log("Start pedido: ", start);
-        eventSchema
-        .find({start: start})
-        .then((data) => res.json(data))
-        .catch((error) => res.json({ message: error}));
-    }
+    .catch((error) => res.json({ message: error}));
 });
 
 
 // update a event
-router.put("/events/:id", (req, res) => {
+router.put("/events/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     const { start, end, title } = req.body;
     eventSchema
@@ -52,7 +40,7 @@ router.put("/events/:id", (req, res) => {
 });
 
 // delete a event
-router.delete("/events/:id", (req, res) => {
+router.delete("/events/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     eventSchema
     .deleteOne({ _id: id })

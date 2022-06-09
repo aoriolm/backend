@@ -1,12 +1,10 @@
 const express = require("express");
 const citaSchema = require("../models/cita");
-
+const mid_auth = require('../middlewares/authenticated');
 const router = express.Router();
 
-//const { validateCreate } = require("../validators/cita");
-
 // create cita
-router.post("/citas", (req, res) => {
+router.post("/citas", mid_auth.isLoggedIn, (req, res) => {
     const cita = citaSchema(req.body);
     cita
     .save()
@@ -14,7 +12,7 @@ router.post("/citas", (req, res) => {
     .catch((error) => res.json({ message: error}));
 });
 // get all citas
-router.get("/citas", (req, res) => {
+router.get("/citas", mid_auth.isLoggedIn, (req, res) => {
     citaSchema
     .find()
     .then((data) => res.json(data))
@@ -22,7 +20,7 @@ router.get("/citas", (req, res) => {
 });
 
 // get a cita
-router.get("/citas/:id", (req, res) => {
+router.get("/citas/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params; 
     citaSchema
     .findById(id)
@@ -31,11 +29,9 @@ router.get("/citas/:id", (req, res) => {
 });
 
 // update a cita
-router.put("/citas/:id", (req, res) => {
+router.put("/citas/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     const { start, user_id, servicio, idEvento } = req.body;
-    console.log("id recibido: ", id);
-    console.log("resto de la cita recibida: ", req.body);
     citaSchema
     .updateOne({ _id: id }, { $set: { start, user_id, servicio, idEvento } })
     .then((data) => res.json(data))
@@ -43,7 +39,7 @@ router.put("/citas/:id", (req, res) => {
 });
 
 // delete a cita
-router.delete("/citas/:id", (req, res) => {
+router.delete("/citas/:id", mid_auth.isLoggedIn, (req, res) => {
     const { id } = req.params;
     citaSchema
     .deleteOne({ _id: id })

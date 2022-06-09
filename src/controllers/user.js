@@ -43,7 +43,6 @@ exports.login = async (req, res, next) => {
      
      await userSchema.findByIdAndUpdate(user._id, { accessToken })
      res.status(200).json({
-      //data: { email: user.email, rol: user.rol },
       id: user._id,
       accessToken,
      })
@@ -52,13 +51,6 @@ exports.login = async (req, res, next) => {
     }
    }
 
-   /*exports.getUsers = async (req, res, next) => {
-    const users = await userSchema.find({});
-    res.status(200).json({
-     data: users
-    });
-   }*/
-
    exports.getUsers = async (req, res, next) => {
     const users = await userSchema
     .find()
@@ -66,27 +58,11 @@ exports.login = async (req, res, next) => {
     .catch((error) => res.json({ message: error}));
    }
 
-
-    
-   exports.getUser = async (req, res, next) => {
-    try {
-     const userId = req.params.userId;
-     const user = await userSchema.findById(userId);
-     if (!user) return next(new Error('User does not exist'));
-      res.status(200).json({
-      data: user
-     });
-    } catch (error) {
-     next(error)
-    }
-   }
-    
+   
    exports.updateUser = async (req, res, next) => {
     const { id } = req.params;
     const { email, password, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } = req.body;
-    console.log("El password recibido es: ", password);
     const hashedPassword = await hashPassword(password);
-    console.log("El password a guardar es: ", hashedPassword);
     userSchema
     .updateOne({ _id: id }, { $set: { email, password: hashedPassword, nombre, apellido1, apellido2, nacimiento, tel1, tel2, genero, rol } })
     .then((data) => res.json(data))
@@ -107,8 +83,6 @@ exports.login = async (req, res, next) => {
     }
    }
 
-
-
  
 exports.grantAccess = function(action, resource) {
  return async (req, res, next) => {
@@ -126,17 +100,5 @@ exports.grantAccess = function(action, resource) {
  }
 }
  
-exports.allowIfLoggedin = async (req, res, next) => {
- try {
-  const user = res.locals.loggedInUser;
-  //console.log(user);
-  if (!user)
-   return res.status(401).json({
-    error: "You need to be logged in to access this route"
-   });
-   req.user = user;
-   next();
-  } catch (error) {
-   next(error);
-  }
-}
+
+
