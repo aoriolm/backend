@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const mid_auth = require('../middlewares/authenticated');
 
+
 const { validateCreate } = require("../validators/user");
 
 // create user

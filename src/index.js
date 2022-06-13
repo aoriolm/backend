@@ -24,6 +24,7 @@ app.use('/api', servicioRoutes);
 app.use('/api', eventRoutes);
 app.use('/api', citaRoutes);
 
+
 // routes
 
 app.get("/", (req, res) => {
