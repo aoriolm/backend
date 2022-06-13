@@ -14,15 +14,25 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
-const corsOptions = {
+/*const corsOptions = {
     origin: 'https://sheyla-homs.netlify.app',
     optionsSuccessStatus: 200
-  }
+  }*/
 const port = process.env.PORT || 9000;
 
 // middleware
 app.use(express.json());
-app.use(cors(corsOptions));
+// Configurar cabeceras y cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
+app.use(cors());
+
 app.use('/api', userRoutes);
 app.use('/api', servicioRoutes);
 app.use('/api', eventRoutes);
