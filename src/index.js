@@ -14,11 +14,15 @@ const jwt = require('jsonwebtoken');
 
 
 const app = express();
+const corsOptions = {
+    origin: 'https://sheyla-homs.netlify.app',
+    optionsSuccessStatus: 200
+  }
 const port = process.env.PORT || 9000;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use('/api', userRoutes);
 app.use('/api', servicioRoutes);
 app.use('/api', eventRoutes);
